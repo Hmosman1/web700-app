@@ -1,5 +1,5 @@
 /*********************************************************************************
-* WEB700 – Assignment 2
+* WEB700 – Assignment 4
 * I declare that this assignment is my own work in accordance with Seneca Academic Policy.
 * No part of this assignment has been copied manually or electronically from any other source
 * (including web sites) or distributed to other students.
@@ -87,10 +87,33 @@ function getCourses() {
     });
 }
 
+// Step 9: Implement the addStudent function
+function addStudent(student) {
+    return new Promise((resolve, reject) => {
+        if (!dataCollection) {
+            reject("data not initialized");
+            return;
+        }
+
+        // Add the new student to the students array
+        dataCollection.students.push(student);
+
+        // Save the updated students array back to the students.json file
+        fs.writeFile('./data/students.json', JSON.stringify(dataCollection.students, null, 2), 'utf8', (err) => {
+            if (err) {
+                reject("unable to write to students.json");
+                return;
+            }
+            resolve();
+        });
+    });
+}
+
 // Step 8: Export the functions
 module.exports = {
     initialize,
     getAllStudents,
     getTAs,
-    getCourses
+    getCourses,
+    addStudent // Export the addStudent function
 };
